@@ -6,9 +6,10 @@
 public class Node 
 {
     private Node parent_node, child_node, sibling_node;
-    private int data, quantity;
+    private String data;
+    private int quantity;
 
-    Node(int data)
+    Node(String data)
     {
         this.data = data;
         this.quantity = 0;
@@ -29,7 +30,7 @@ public class Node
     {
         this.sibling_node = sibling_node;
     }
-    public void set_data(int data)
+    public void set_data(String data)
     {
         this.data = data;
     }
@@ -51,7 +52,7 @@ public class Node
     {
         return this.sibling_node;
     }
-    public int get_data()
+    public String get_data()
     {
         return this.data;
     }
