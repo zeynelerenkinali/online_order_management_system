@@ -1,3 +1,5 @@
+import java.text.Collator;
+import java.util.*;
 /*
  * Algorithm
  * OrderSystem()
@@ -8,9 +10,10 @@
  * - AddOrder(String order[], Node root)
  * 1. If isAlph false
  *    1.1 Sent order to Alphabetical(String order[], String AlphabetType) *ENG and TUR*
+ *    1.2 isAlph = true
  * 2. Declare cur_order_node with order[index] data
  * 3. Initialize next_order_node as null
- * 4. If (index+1) >= order.size
+ * 4. If (index+1) >= order.length
  *     4.1 Increase cur_order_node's quantity with 1
  *     4.2 print("order addition successfully operated")
  *     4.3 Set Index = 0
@@ -36,7 +39,7 @@
  *      7.2 Increase order's index with 1
  *      7.3 Set this.root.child.sibling = next_order_node
  *      7.4 Set next_order_node's parent = cur_order_node
- *      7.5 AddOrder(order, this.root.child)
+ *      7.5 AddOrder(order, next_order_node)
  * 
  * 8. Else if root equal to cur_order_node 
  *      8.1 Increase root's quantity with 1
@@ -58,5 +61,65 @@
 
 public class OrderSystem 
 {
+    private int index;
+    private Node root;
+    private boolean isAlph;
+    private String alphabetType;
+    private Node cur_order_node;
+    private Node next_order_node;
 
+    OrderSystem(String alphabetType)
+    {
+        this.index = 0;
+        this.root = null;
+        this.isAlph = false;
+        this.alphabetType = alphabetType;
+    }
+
+    public void AddOrder(String order[], Node root)
+    {
+        if(isAlph == false)
+        {
+            Alphabetical(order, this.alphabetType);
+            isAlph = true;
+        }
+        cur_order_node = new Node(order[index]);
+        next_order_node = null;
+        if((index + 1) >= order.length)
+        {
+            cur_order_node.increase_quaintity();
+            System.out.println("Order addition successfully operated");
+            index = 0;
+            isAlph = false;
+            // Do not call recursive will end operation
+        }
+        
+    }
+
+
+    public void setAlphabetType(String alphabetType)
+    {
+        this.alphabetType = alphabetType;
+    }
+
+    public String[] Alphabetical(String[] order, String AlphabetType)
+    {
+        switch (AlphabetType.toLowerCase()) {
+            case "en" -> Arrays.sort(order); // If Alphabet is english, then that means we can sort the array in Alphabetical order.
+            case "tr" -> 
+            {
+                // Turn order Array to list in order to make changes
+                List<String> list = Arrays.asList(order);
+                Collator collator = Collator.getInstance(new Locale("tr", "TR"));
+                list.sort((s1, s2) -> collator.compare(s1, s2));
+                list.toArray(order);
+            }
+            default -> 
+            {
+                return null;
+            }
+        }
+        return order;
+    }
+    
 }
