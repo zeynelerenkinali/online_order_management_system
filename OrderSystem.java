@@ -1,8 +1,8 @@
 import java.text.Collator;
 import java.util.*;
 /*
- * Algorithm
- * OrderSystem()
+ * Algorithm of Each Funciton 
+ * - OrderSystem()
  * 1. Declare index = 0
  * 2. Declare this.root = null
  * 3. Declare boolean isAlph = false
@@ -58,6 +58,20 @@ import java.util.*;
  *      9.7 AddOrder(order, next_order_node) // this was cur_order_node I thought this might be wrong check later.
  * 10. Else
  *      10.1 AddOrder(order, next_order_node)
+ * 
+ * - print(Node root)
+ * **Logic: Every node except root node have only one child and unknown amount of siblings
+ *           Root, does not have sibling only one child
+ * 1. If root equals null (means first call)
+ *      1.1 set root node to this.root
+ * 2. Print node printing structure 
+ * 3. Print current root node with (quantity) in parantheses
+ * 4. If root.child not equals null
+ *      4.1 print child passing gui structure
+ *      4.2 print(root.child)
+ * 5. If root.sibling not equals null
+ *      5.1 print sibling passing structure
+ *      5.2 print(root.sibling) 
  */
 
 
@@ -139,7 +153,6 @@ public class OrderSystem
             AddOrder(order, next_order_node);
     }
 
-
     public void setAlphabetType(String alphabetType)
     {
         this.alphabetType = alphabetType;
@@ -164,5 +177,23 @@ public class OrderSystem
         }
         return order;
     }
-    
+    public void print(Node root)
+    {
+        if(root == null) // 1.
+            root = this.root; // 1.1
+        System.out.print("----"); // 2.
+        System.out.print(root.get_data() + "(" + root.get_quantity() + ")");
+        if(root.get_child_node() != null)
+        {
+            System.out.print("      ");
+            System.out.print("|/n|/n");
+            System.out.print(root.get_child_node());
+        }
+        if(root.get_sibling_node() != null)
+        {
+            System.out.print("|/n|/n");
+            print(root.get_sibling_node());
+        }
+    }    
+
 }
