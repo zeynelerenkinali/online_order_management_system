@@ -13,7 +13,7 @@ import java.util.*;
  *    1.2 isAlph = true
  * 2. Declare cur_order_node with order[index] data
  * 3. Initialize next_order_node as null
- * 4. If (index+1) >= order.length
+ * 4. If (index+1) >= order.length *Base case of recursive calls
  *     4.1 Increase cur_order_node's quantity with 1
  *     4.2 print("order addition successfully operated")
  *     4.3 Set Index = 0
@@ -92,12 +92,12 @@ public class OrderSystem
         this.alphabetType = alphabetType;
     }
 
-    public void AddOrder(String order[], Node root)
+    public boolean AddOrder(String order[], Node root)
     {
         if(isAlph == false) // 1.
         {
             Alphabetical(order, this.alphabetType); 
-            isAlph = true; 
+            isAlph = true;
         }
         cur_order_node = new Node(order[index]); // 2.
         next_order_node = null; // 3.
@@ -107,8 +107,8 @@ public class OrderSystem
             System.out.println("Order addition successfully operated");
             index = 0;
             isAlph = false;
-            // Do not call recursive will end operation // return
-            return;
+            // Returning true will end recursive operations
+            return true;
         }   
         else // 5.
             next_order_node = new Node(order[index+1]);
@@ -120,24 +120,32 @@ public class OrderSystem
             this.root.increase_quaintity();
             index++;
             this.root.set_child_node(next_order_node);
-            next_order_node.set_parent_node(cur_order_node);
-            AddOrder(order, next_order_node);
+            if (next_order_node != null) {
+                next_order_node.set_parent_node(cur_order_node);
+            }
+            return AddOrder(order, next_order_node);
         }
-        if(root == null && this.root.get_data().equals(cur_order_node.get_data())) // 7.
+        if(root == null && this.root.get_data() == cur_order_node.get_data()) // 7.
         {
             this.root.increase_quaintity();
             index++;
-            this.root.get_child_node().set_sibling_node(next_order_node);
-            next_order_node.set_parent_node(cur_order_node);
-            AddOrder(order, next_order_node);
+            if (this.root.get_child_node() != null) {
+                this.root.get_child_node().set_sibling_node(next_order_node);
+            }
+            if (next_order_node != null) {
+                next_order_node.set_parent_node(cur_order_node);
+            }
+            return AddOrder(order, next_order_node);
         }
-        else if(root.get_data().equals(cur_order_node.get_data())) // 8.
+        else if(root.get_data() == cur_order_node.get_data()) // 8.
         {
             root.increase_quaintity();
             index++;
             root.set_child_node(next_order_node);
-            next_order_node.set_parent_node(cur_order_node);
-            AddOrder(order, next_order_node);
+            if (next_order_node != null) {
+                next_order_node.set_parent_node(cur_order_node);
+                }
+            return AddOrder(order, next_order_node);
         }
         else if(root.get_sibling_node() == null)
         {
@@ -147,10 +155,9 @@ public class OrderSystem
             cur_order_node.increase_quaintity();
             cur_order_node.set_child_node(next_order_node);
             next_order_node.set_parent_node(cur_order_node);
-            AddOrder(order, next_order_node);
+            return AddOrder(order, next_order_node);
         }
-        else // on process 
-            AddOrder(order, next_order_node);
+        return AddOrder(order, next_order_node);
     }
 
     public void setAlphabetType(String alphabetType)
@@ -186,12 +193,12 @@ public class OrderSystem
         if(root.get_child_node() != null)
         {
             System.out.print("      ");
-            System.out.print("|/n|/n");
-            System.out.print(root.get_child_node());
+            System.out.print("|\n|\n");
+            print(root.get_child_node());
         }
         if(root.get_sibling_node() != null)
         {
-            System.out.print("|/n|/n");
+            System.out.print("|\n|\n");
             print(root.get_sibling_node());
         }
     }    
