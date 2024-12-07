@@ -78,6 +78,7 @@ import java.util.*;
 public class OrderSystem 
 {
     private int index;
+    private int space_index;
     private Node root;
     private boolean isAlph;
     private String alphabetType;
@@ -103,7 +104,7 @@ public class OrderSystem
         next_order_node = null; // 3.
         if((index + 1) >= order.length) //4. 
         {
-            cur_order_node.increase_quaintity();
+            root.increase_quaintity();
             System.out.println("Order addition successfully operated");
             index = 0;
             isAlph = false;
@@ -125,19 +126,20 @@ public class OrderSystem
             }
             return AddOrder(order, next_order_node);
         }
-        if(root == null && this.root.get_data() == cur_order_node.get_data()) // 7.
+        if(root == null && (this.root.get_data() == null ? cur_order_node.get_data() == null : this.root.get_data().equals(cur_order_node.get_data()))) // 7.
         {
             this.root.increase_quaintity();
             index++;
             if (this.root.get_child_node() != null) {
-                this.root.get_child_node().set_sibling_node(next_order_node);
+                if(this.root.get_child_node().get_data() == null ? next_order_node.get_data() != null : !this.root.get_child_node().get_data().equals(next_order_node.get_data()))
+                    this.root.get_child_node().set_sibling_node(next_order_node);
             }
             if (next_order_node != null) {
                 next_order_node.set_parent_node(cur_order_node);
             }
             return AddOrder(order, next_order_node);
         }
-        else if(root.get_data() == cur_order_node.get_data()) // 8.
+        else if(root.get_data() == null ? cur_order_node.get_data() == null : root.get_data().equals(cur_order_node.get_data())) // 8.
         {
             root.increase_quaintity();
             index++;
@@ -187,18 +189,31 @@ public class OrderSystem
     public void print(Node root)
     {
         if(root == null) // 1.
+        {
             root = this.root; // 1.1
-        System.out.print("----"); // 2.
-        System.out.print(root.get_data() + "(" + root.get_quantity() + ")");
+            this.space_index = 1;
+            System.out.print("root");
+            System.out.println();
+        }
+        System.out.print("└──"); // 2.
+        System.out.print(root.get_data() + " (" + root.get_quantity() + ")");
+        System.out.println();
         if(root.get_child_node() != null)
         {
-            System.out.print("      ");
-            System.out.print("|\n|\n");
+            for(int i = 0; i < this.space_index; i++)
+            {
+                System.out.print("   ");
+            }
+            this.space_index++;
             print(root.get_child_node());
         }
         if(root.get_sibling_node() != null)
         {
-            System.out.print("|\n|\n");
+            this.space_index = 2;
+            for(int i = 0; i < this.space_index - 1; i++)
+            {
+                System.out.print("   ");
+            }
             print(root.get_sibling_node());
         }
     }    
