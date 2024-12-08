@@ -47,7 +47,10 @@ import java.util.*;
  *      8.2 Increase order's index with 1 
  *      *At here we don't know last element of the array is same as last element(child) of the current tree so
  *      8.3 If !(root.child equals next_order_node,) // that means we need to add this child as child's sibling so I'm saying take the root but don't end the loop
- *          8.3.1 Decrease order's index with 1          
+ *          8.3.1 Decrease order's index with 1
+ *      8.4 Else
+ *          8.4.1 Set next_order_node parent = root
+ *          8.4.2 Set root.child = next_order_node          
 *       8.4 AddOrder(order, root.child)
  * 
  * 9. Else if root.sibling == null
@@ -138,12 +141,22 @@ public class OrderSystem
         {
             root.increase_quaintity();
             index++;
-            if (root.get_child_node().get_data() == null ? next_order_node.get_data() == null : root.get_child_node().get_data().equals(next_order_node.get_data()))
+            if (root.get_child_node() == null ? next_order_node == null : !root.get_child_node().get_data().equals(next_order_node.get_data()))
                     index--;
+            else if(root.get_child_node() == null)
+            {
+                next_order_node.set_parent_node(root);
+                root.set_child_node(next_order_node);
+            }
             return AddOrder(order, root.get_child_node());
         }
         else if(root.get_sibling_node() == null)
         {
+            if(next_order_node.get_data() == null ? root.get_data() == null : next_order_node.get_data().equals(root.get_data()))
+            {
+                cur_order_node = next_order_node;
+                next_order_node = null;
+            }
             cur_order_node.set_parent_node(root.get_parent_node());
             index++;
             root.set_sibling_node(cur_order_node);
