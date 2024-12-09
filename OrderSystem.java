@@ -83,9 +83,9 @@ import java.util.*;
 public class OrderSystem 
 {
     private int index;
-    private int space_index;
     private Node root;
     private boolean isAlph;
+    private boolean lastSiblingCheck;
     private String alphabetType;
     private Node cur_order_node;
     private Node next_order_node;
@@ -95,6 +95,7 @@ public class OrderSystem
         this.index = 0;
         this.root = null;
         this.isAlph = false;
+        this.lastSiblingCheck = false;
         this.alphabetType = alphabetType;
     }
 
@@ -116,8 +117,7 @@ public class OrderSystem
             // Returning true will end recursive operations
             return true;
         }   
-        else // 5.
-            next_order_node = new Node(order[index+1]);
+        else next_order_node = new Node(order[index+1]); // 5.
         if(this.root == null) // 6.
         {
             this.root = cur_order_node;
@@ -142,7 +142,11 @@ public class OrderSystem
             root.increase_quaintity();
             index++;
             if (root.get_child_node() == null ? next_order_node == null : !root.get_child_node().get_data().equals(next_order_node.get_data()))
-                    index--;
+            {
+                index--;
+                lastSiblingCheck = true;
+            }
+
             else if(root.get_child_node() == null)
             {
                 next_order_node.set_parent_node(root);
@@ -152,10 +156,11 @@ public class OrderSystem
         }
         else if(root.get_sibling_node() == null)
         {
-            if(next_order_node.get_data() == null ? root.get_data() == null : next_order_node.get_data().equals(root.get_data()))
+            if(lastSiblingCheck)
             {
                 cur_order_node = next_order_node;
                 next_order_node = null;
+                lastSiblingCheck = false;
             }
             cur_order_node.set_parent_node(root.get_parent_node());
             index++;
@@ -169,10 +174,8 @@ public class OrderSystem
             }
             return AddOrder(order, root.get_sibling_node());
         }
-        else
-        {
-            return AddOrder(order, root.get_sibling_node());
-        }
+        else return AddOrder(order, root.get_sibling_node());
+
     }
 
     public void setAlphabetType(String alphabetType)
@@ -199,36 +202,34 @@ public class OrderSystem
         }
         return order;
     }
-    public void print(Node root)
+    public void print(Node root, int space_index)
     {
         if(root == null) // 1.
         {
             root = this.root; // 1.1
-            this.space_index = 1;
             System.out.print("root");
             System.out.println();
         }
         System.out.print("└──"); // 2.
-        System.out.print(root.get_data() + " (" + root.get_quantity() + ")");
+        System.out.print(root.get_data() + " (" + root.get_quantity() + ")" + root.get_parent_node());
         System.out.println();
         if(root.get_child_node() != null)
         {
-            for(int i = 0; i < this.space_index; i++)
+            for(int i = 0; i < space_index; i++)
             {
                 System.out.print("   ");
             }
-            this.space_index++;
-            print(root.get_child_node());
+            print(root.get_child_node(), ++space_index);
         }
         if(root.get_sibling_node() != null)
         {
-            this.space_index = 2;
-            for(int i = 0; i < this.space_index - 1; i++)
+            for(int i = 0; i < space_index; i++)
             {
                 System.out.print("   ");
             }
-            print(root.get_sibling_node());
+            print(root.get_sibling_node(), space_index);
         }
+        
     }    
 
 }

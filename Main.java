@@ -49,7 +49,7 @@ public class Main
                     boolean a = os.AddOrder(cur_order.get(order_index - 1), null);
                     System.out.print(a);
                 }
-                case 5 -> os.print(null);
+                case 5 -> os.print(null, 1);
                 default -> throw new AssertionError();
             }
         }
