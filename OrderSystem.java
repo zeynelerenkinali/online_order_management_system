@@ -212,7 +212,7 @@ public class OrderSystem
             System.out.println();
         }
         System.out.print(space_index + "└──"); // 2.
-        System.out.print(root.get_data() + " (" + root.get_quantity() + ")" + root.get_parent_node());
+        System.out.print(root.get_data() + " (" + root.get_quantity() + ")" + " ─> Parent(" + (root.get_parent_node() == null ? "null" : root.get_parent_node().get_data())  + ")");
         System.out.println();
         if(root.get_child_node() != null) print(root.get_child_node(), space_index + "   ");
         if(root.get_sibling_node() != null) print(root.get_sibling_node(), space_index + "");        
