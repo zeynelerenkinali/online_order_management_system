@@ -77,7 +77,11 @@ public class Main
                     boolean a = os.AddOrder(cur_order.get(order_index - 1), null);
                     System.out.print(a);
                 }
-                case 4 -> os.print(null, 1);
+                case 4 -> {
+                    os.print(null, ""); 
+                    System.out.print("\nType anything to continue...");
+                    char ch = sc.next().charAt(0);
+                }
                 case 5 ->                 {
                     System.out.print("\nThank you for using our Order Management System.\nLeaving...\n");
                     mainLoop = true;

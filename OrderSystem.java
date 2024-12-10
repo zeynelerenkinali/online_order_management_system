@@ -202,7 +202,7 @@ public class OrderSystem
         }
         return order;
     }
-    public void print(Node root, int space_index)
+    public void print(Node root, String space_index)
     {
         if(root == null) // 1.
         {
@@ -210,26 +210,11 @@ public class OrderSystem
             System.out.print("root");
             System.out.println();
         }
-        System.out.print("└──"); // 2.
+        System.out.print(space_index + "└──"); // 2.
         System.out.print(root.get_data() + " (" + root.get_quantity() + ")" + root.get_parent_node());
         System.out.println();
-        if(root.get_child_node() != null)
-        {
-            for(int i = 0; i < space_index; i++)
-            {
-                System.out.print("   ");
-            }
-            print(root.get_child_node(), ++space_index);
-        }
-        if(root.get_sibling_node() != null)
-        {
-            for(int i = 0; i < space_index; i++)
-            {
-                System.out.print("   ");
-            }
-            print(root.get_sibling_node(), space_index);
-        }
-        
+        if(root.get_child_node() != null) print(root.get_child_node(), space_index + "   ");
+        if(root.get_sibling_node() != null) print(root.get_sibling_node(), space_index + "");        
     }    
 
 }
