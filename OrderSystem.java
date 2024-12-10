@@ -175,7 +175,6 @@ public class OrderSystem
             return AddOrder(order, root.get_sibling_node());
         }
         else return AddOrder(order, root.get_sibling_node());
-
     }
 
     public void setAlphabetType(String alphabetType)
@@ -208,12 +207,9 @@ public class OrderSystem
         if(root == null) // 1.
         {
             root = this.root; // 1.1
-            System.out.print("root");
-            System.out.println();
+            System.out.print("root\n");
         }
-        System.out.print(space_index + "└──"); // 2.
-        System.out.print(root.get_data() + " (" + root.get_quantity() + ")" + " ─> Parent(" + (root.get_parent_node() == null ? "null" : root.get_parent_node().get_data())  + ")");
-        System.out.println();
+        System.out.print(space_index + "└──" + root.get_data() + " (" + root.get_quantity() + ")" + " ─> Parent(" + (root.get_parent_node() == null ? "null" : root.get_parent_node().get_data())  + ")\n");
         if(root.get_child_node() != null) print(root.get_child_node(), space_index + "   ");
         if(root.get_sibling_node() != null) print(root.get_sibling_node(), space_index + "");        
     }    
