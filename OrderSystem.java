@@ -202,6 +202,7 @@ public class OrderSystem
         }
         return order;
     }
+    
     public void print(Node root, String space_index)
     {
         if(root == null) // 1.
