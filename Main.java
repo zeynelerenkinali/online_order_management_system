@@ -1,5 +1,6 @@
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main 
@@ -14,7 +15,7 @@ public class Main
         boolean isFirst = false;
         boolean valid = false;
         boolean mainLoop = false;
-        ArrayList<String> order_list = new ArrayList<>(); 
+        ArrayList<String[]> order_list = new ArrayList<>(); 
         ArrayList<String[]> cur_order = new ArrayList<>();
         while(!mainLoop)
         {
@@ -59,23 +60,38 @@ public class Main
                 {
                     valid = false;
                     while(!valid)
-                    {
+                    {              
                         System.out.print("\n-----------\n|Add Order|\n-----------\n");
                         System.out.print("Please enter your order(as order1,order2,order3): ");
-                        String text = sc.next(); // Save the current order to text variable.
+                        if (sc.hasNextLine()) sc.nextLine(); // Clean buffer
+                        boolean parts_valid = true;   
+                        String text = sc.nextLine(); // Save the current order to text variable.
+                        text = text.replaceAll("\\s", "");
                         String[] parts = text.split(","); // Split text variable with "," to sepereate orders.
-                        if(parts.length <= 1)
+                        String[] parts_to_list = Arrays.copyOf(parts, parts.length); // When you equal directly it will get address of it so it will be changing the original array not the parts_to_list copy
+                        for (int i = 0; i < parts.length; i++) 
+                        {
+                            if(parts[i].length() < 1){
+                                parts_valid = false;
+                                break;
+                            } 
+                            else parts_to_list[i] = parts_to_list[i].toLowerCase(); // Send all the strings at lowercase situation while sending it to order_list in order to delete easily.
+                            System.out.println(parts[i] + " " + parts_to_list[i]);
+                        }
+                        if(parts.length <= 1 && !parts_valid)
                             System.err.print("\nERROR: Please enter orders in appropriate structure(as order1,order2,order3)\n");
                         else
                         {
                             valid = true;
                             cur_order.add(parts);
                             order_index++;
-                            order_list.add(text); // Add order to order_list, as full text.
+                            order_list.add(parts_to_list); // Add order to order_list, as full text.
                         }
                     }   
-                    boolean a = os.AddOrder(cur_order.get(order_index - 1), null);
-                    System.out.print(a);
+                    os.AddOrder(cur_order.get(order_index - 1), null);
+                }
+                case 2 ->{
+
                 }
                 case 4 -> {
                     os.print(null, ""); 

@@ -66,6 +66,10 @@ import java.util.*;
  * 10. Else
  *      10.1 AddOrder(order, root.sibling) // go through sibling until reaches null sibling
  * 
+ * -Cancel Order
+ * 
+ * 
+ * 
  * - print(Node root)
  * **Logic: Every node except root node have only one child and unknown amount of siblings
  *          Root, does not have sibling only one child
@@ -202,16 +206,16 @@ public class OrderSystem
         return order;
     }
     
-    public void print(Node root, String space_index)
+    public void print(Node root, String space)
     {
         if(root == null) // 1.
         {
             root = this.root; // 1.1
             System.out.print("root\n");
         }
-        System.out.print(space_index + "└──" + root.get_data() + " (" + root.get_quantity() + ")" + " ─> Parent(" + (root.get_parent_node() == null ? "null" : root.get_parent_node().get_data())  + ")\n");
-        if(root.get_child_node() != null) print(root.get_child_node(), space_index + "   ");
-        if(root.get_sibling_node() != null) print(root.get_sibling_node(), space_index + "");        
+        System.out.print(space + "└──" + root.get_data() + " (" + root.get_quantity() + ")" + " ─> Parent(" + (root.get_parent_node() == null ? "null" : root.get_parent_node().get_data())  + ")\n");
+        if(root.get_child_node() != null) print(root.get_child_node(), space + "   ");
+        if(root.get_sibling_node() != null) print(root.get_sibling_node(), space + "");        
     }    
 
 }
