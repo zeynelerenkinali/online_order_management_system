@@ -1,6 +1,5 @@
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main 
@@ -68,15 +67,14 @@ public class Main
                         String text = sc.nextLine(); // Save the current order to text variable.
                         text = text.replaceAll("\\s", "");
                         String[] parts = text.split(","); // Split text variable with "," to sepereate orders.
-                        String[] parts_to_list = Arrays.copyOf(parts, parts.length); // When you equal directly it will get address of it so it will be changing the original array not the parts_to_list copy
+                        //String[] parts_to_list = Arrays.copyOf(parts, parts.length); // When you equal directly it will get address of it so it will be changing the original array not the parts_to_list copy
                         for (int i = 0; i < parts.length; i++) 
                         {
                             if(parts[i].length() < 1){
                                 parts_valid = false;
                                 break;
                             } 
-                            else parts_to_list[i] = parts_to_list[i].toLowerCase(); // Send all the strings at lowercase situation while sending it to order_list in order to delete easily.
-                            System.out.println(parts[i] + " " + parts_to_list[i]);
+                            //else parts_to_list[i] = parts_to_list[i].toLowerCase(); // Send all the strings at lowercase situation while sending it to order_list in order to delete easily.
                         }
                         if(parts.length <= 1 && !parts_valid)
                             System.err.print("\nERROR: Please enter orders in appropriate structure(as order1,order2,order3)\n");
@@ -85,18 +83,50 @@ public class Main
                             valid = true;
                             cur_order.add(parts);
                             order_index++;
-                            order_list.add(parts_to_list); // Add order to order_list, as full text.
+                            order_list.add(parts); // Add order to order_list, as full text.
                         }
                     }   
                     os.AddOrder(cur_order.get(order_index - 1), null);
                 }
-                case 2 ->{
-
+                case 2 ->
+                {
+                    valid = false;
+                    while(!valid)
+                    {
+                        System.out.print("\n--------------\n|Cancel Order|\n--------------\n");
+                        System.out.print("\n--------\n|ORDERS|\n--------");
+                        for(int i = 0; i < order_list.size(); i++)
+                        {
+                            System.out.print("\n|" + (i+1) + "->|[");
+                            for(int j = 0; j < order_list.get(i).length; j++)
+                            {
+                                String comma = (j == order_list.get(i).length - 1) ? "" : ",";
+                                System.out.print(order_list.get(i)[j] + comma);
+                            }
+                            System.out.print("]");
+                        }
+                        boolean valid_select = false;
+                        int selected_order = 0;
+                        while(!valid_select)
+                        {
+                            System.out.print("\nPlease select an order to cancel(select by index number): ");
+                            if (sc.hasNextLine()) sc.nextLine(); // Clean buffer
+                            String line = sc.nextLine();
+                            line = line.replaceAll("\\s", "");
+                            if(line.matches("\\d+"))
+                            {
+                                selected_order = Integer.parseInt(line);
+                                if(selected_order <= order_list.size() && selected_order > 0) valid_select = true;
+                            }
+                        }
+                    }
                 }
                 case 4 -> {
-                    os.print(null, ""); 
-                    System.out.print("\nType anything to continue...");
-                    char ch = sc.next().charAt(0);
+                    if(!order_list.isEmpty()) os.print(null, "");
+                    else System.err.print("\nERROR: There is no order to print, please add an order first.\n");
+                    if (sc.hasNextLine()) sc.nextLine(); // Clean buffer 
+                    System.out.print("\nPress Enter to continue...");
+                    sc.nextLine();
                 }
                 case 5 ->                 {
                     System.out.print("\nThank you for using our Order Management System.\nLeaving...\n");
