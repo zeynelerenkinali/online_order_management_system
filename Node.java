@@ -66,4 +66,8 @@ public class Node
     {
         this.quantity++;
     }
+    public void decrease_quaintity()
+    {
+        this.quantity--;
+    }
 }

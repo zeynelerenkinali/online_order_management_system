@@ -66,9 +66,15 @@ import java.util.*;
  * 10. Else
  *      10.1 AddOrder(order, root.sibling) // go through sibling until reaches null sibling
  * 
- * -Cancel Order
- * 
- * 
+ * -CancelOrder(String cancel_order[], Node root)
+ * Logic
+ * * We have cancel_order array, now we need to search index by index for finding which indexes should be cancalled or removed
+ * * Put starting condition for initialize index and root = this.root value 
+ * * If root.data == cancel_order[index] means we are on the right track at this part of the element then
+ * *    If root.quantity >= 2, then decrease one
+ * *    Else if root.quantity = 1 then set the root null return true; CancelOrder(cancel_order, root.child);
+ * * Else if(root.sibling.data == cancel_order[index]) means index is the correct one so; CancelOrder(cancel_order, root.sibling)
+ * * 
  * 
  * - print(Node root)
  * **Logic: Every node except root node have only one child and unknown amount of siblings
@@ -87,6 +93,7 @@ import java.util.*;
 public class OrderSystem 
 {
     private int index;
+    private int index_c;
     private Node root;
     private boolean isAlph;
     private boolean lastSiblingCheck;
@@ -181,6 +188,35 @@ public class OrderSystem
         else return AddOrder(order, root.get_sibling_node());
     }
     
+    
+    public boolean CancelOrder(String order[], Node root)
+    {
+        if(index_c >= order.length) return true;
+        if(root == null)
+        {
+            index_c = 0;
+            root = this.root;
+        }
+        if(root.get_data() == null ? order[index_c] == null : root.get_data().equals(order[index_c]))
+        {
+            if(root.get_quantity() >= 2) root.decrease_quaintity();
+            else removeNode(root);
+            index_c++;
+            CancelOrder(order, root.get_child_node());
+        }
+        else {
+            index_c++;
+            CancelOrder(order, root.get_sibling_node());
+        }
+        return false;
+    }
+
+    private Node removeNode(Node node) 
+    {
+        if(node == this.root) this.root = null;
+        return null;
+    }
+    
     public void setAlphabetType(String alphabetType)
     {
         this.alphabetType = alphabetType;
@@ -217,5 +253,4 @@ public class OrderSystem
         if(root.get_child_node() != null) print(root.get_child_node(), space + "   ");
         if(root.get_sibling_node() != null) print(root.get_sibling_node(), space + "");        
     }    
-
 }

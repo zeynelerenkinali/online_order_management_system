@@ -67,15 +67,11 @@ public class Main
                         String text = sc.nextLine(); // Save the current order to text variable.
                         text = text.replaceAll("\\s", "");
                         String[] parts = text.split(","); // Split text variable with "," to sepereate orders.
-                        //String[] parts_to_list = Arrays.copyOf(parts, parts.length); // When you equal directly it will get address of it so it will be changing the original array not the parts_to_list copy
-                        for (int i = 0; i < parts.length; i++) 
-                        {
-                            if(parts[i].length() < 1){
+                        for (String part : parts) {
+                            if (part.length() < 1) {
                                 parts_valid = false;
                                 break;
-                            } 
-                            //else parts_to_list[i] = parts_to_list[i].toLowerCase(); // Send all the strings at lowercase situation while sending it to order_list in order to delete easily.
-                        }
+                            }                         }
                         if(parts.length <= 1 && !parts_valid)
                             System.err.print("\nERROR: Please enter orders in appropriate structure(as order1,order2,order3)\n");
                         else
@@ -95,6 +91,7 @@ public class Main
                     {
                         System.out.print("\n--------------\n|Cancel Order|\n--------------\n");
                         System.out.print("\n--------\n|ORDERS|\n--------");
+                        // Print the currently available order for user to select one of the array for cancel operation
                         for(int i = 0; i < order_list.size(); i++)
                         {
                             System.out.print("\n|" + (i+1) + "->|[");
@@ -107,6 +104,7 @@ public class Main
                         }
                         boolean valid_select = false;
                         int selected_order = 0;
+                        // Select an order from the list that previously given
                         while(!valid_select)
                         {
                             System.out.print("\nPlease select an order to cancel(select by index number): ");
@@ -119,6 +117,12 @@ public class Main
                                 if(selected_order <= order_list.size() && selected_order > 0) valid_select = true;
                             }
                         }
+                        // Send the order to Cancel_order operation at OrderSystem and delete the order from order_list
+                        boolean check = os.CancelOrder(order_list.get(selected_order - 1), null);
+                        order_list.remove(selected_order - 1);
+                        if(check) System.out.print("\nOrder Successfully Cancelled.\n");
+                        else System.err.println("\nCould not able to Cancel Order.\n");
+                        valid = true;
                     }
                 }
                 case 4 -> {
