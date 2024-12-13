@@ -110,82 +110,99 @@ public class OrderSystem
         this.alphabetType = alphabetType;
     }
 
-    public boolean AddOrder(String order[], Node root)
+    public void AddOrder(String order[], Node root)
     {
         if(isAlph == false) // 1.
         {
             Alphabetical(order, this.alphabetType); 
             isAlph = true;
-        }
-        cur_order_node = new Node(order[index]); // 2.
-        next_order_node = null; // 3.
-        if((index + 1) >= order.length) //4. 
-        {
-            root.increase_quaintity();
-            System.out.println("CONDITION: Order addition successfully operated.");
+            if(root == null) root = this.root;
             index = 0;
-            isAlph = false;
-            // Returning true will end recursive operations
-            return true;
-        }   
-        else next_order_node = new Node(order[index+1]); // 5.
-        if(this.root == null) // 6.
-        {
-            this.root = cur_order_node;
-            this.root.set_parent_node(null);
-            this.root.set_sibling_node(null);
-            this.root.increase_quaintity();
-            index++;
-            if (next_order_node != null) {
-                next_order_node.set_parent_node(cur_order_node);
-            }
-            this.root.set_child_node(next_order_node);
-            return AddOrder(order, this.root.get_child_node());
         }
-        if(root == null && (this.root.get_data() == null ? cur_order_node.get_data() == null : this.root.get_data().equals(cur_order_node.get_data()))) // 7.
+        if(index >= order.length) // Base case
         {
-            this.root.increase_quaintity();
-            index++;
-            return AddOrder(order, this.root.get_child_node());
         }
-        else if(root.get_data() == null ? cur_order_node.get_data() == null : root.get_data().equals(cur_order_node.get_data())) // 8.
+        if(root.get_data() == null ? order[index] == null : root.get_data().equals(order[index]))
         {
-            root.increase_quaintity();
-            index++;
-            if (root.get_child_node() == null ? next_order_node == null : !root.get_child_node().get_data().equals(next_order_node.get_data()))
-            {
-                index--;
-                lastSiblingCheck = true;
-            }
+        }
+        else if(root.get_sibling_node().get_data() == null ? order[index] == null : root.get_sibling_node().get_data().equals(order[index]))
+        {
+        }
+        /*
+         * Firstly I have to check Is it equals current one, if it is increase the current one and continue with child
+         * Then I have to go siblings until reach null one I can check this if the next one is null or not to make connections better.
+         * When reach create a new node and make connections
+         */
 
-            else if(root.get_child_node() == null)
-            {
-                next_order_node.set_parent_node(root);
-                root.set_child_node(next_order_node);
-            }
-            return AddOrder(order, root.get_child_node());
-        }
-        else if(root.get_sibling_node() == null)
-        {
-            if(lastSiblingCheck)
-            {
-                cur_order_node = next_order_node;
-                next_order_node = null;
-                lastSiblingCheck = false;
-            }
-            cur_order_node.set_parent_node(root.get_parent_node());
-            index++;
-            root.set_sibling_node(cur_order_node);
-            if(next_order_node != null)
-            {
-                root.get_sibling_node().increase_quaintity();
-                next_order_node.set_parent_node(root.get_sibling_node());
-                root.get_sibling_node().set_child_node(next_order_node);
-                return AddOrder(order, root.get_sibling_node().get_child_node());
-            }
-            return AddOrder(order, root.get_sibling_node());
-        }
-        else return AddOrder(order, root.get_sibling_node());
+        // cur_order_node = new Node(order[index]); // 2.
+        // next_order_node = null; // 3.
+        // if((index + 1) >= order.length) //4. 
+        // {
+        //     root.increase_quaintity();
+        //     System.out.println("CONDITION: Order addition successfully operated.");
+        //     index = 0;
+        //     isAlph = false;
+        //     // Returning true will end recursive operations
+        //     return true;
+        // }   
+        // else next_order_node = new Node(order[index+1]); // 5.
+        // if(this.root == null) // 6.
+        // {
+        //     this.root = cur_order_node;
+        //     this.root.set_parent_node(null);
+        //     this.root.set_sibling_node(null);
+        //     this.root.increase_quaintity();
+        //     index++;
+        //     if (next_order_node != null) {
+        //         next_order_node.set_parent_node(cur_order_node);
+        //     }
+        //     this.root.set_child_node(next_order_node);
+        //     return AddOrder(order, this.root.get_child_node());
+        // }
+        // if(root == null && (this.root.get_data() == null ? cur_order_node.get_data() == null : this.root.get_data().equals(cur_order_node.get_data()))) // 7.
+        // {
+        //     this.root.increase_quaintity();
+        //     index++;
+        //     return AddOrder(order, this.root.get_child_node());
+        // }
+        // else if(root.get_data() == null ? cur_order_node.get_data() == null : root.get_data().equals(cur_order_node.get_data())) // 8.
+        // {
+        //     root.increase_quaintity();
+        //     index++;
+        //     if (root.get_child_node() == null ? next_order_node == null : !root.get_child_node().get_data().equals(next_order_node.get_data()))
+        //     {
+        //         index--;
+        //         lastSiblingCheck = true;
+        //     }
+
+        //     else if(root.get_child_node() == null)
+        //     {
+        //         next_order_node.set_parent_node(root);
+        //         root.set_child_node(next_order_node);
+        //     }
+        //     return AddOrder(order, root.get_child_node());
+        // }
+        // else if(root.get_sibling_node() == null)
+        // {
+        //     if(lastSiblingCheck)
+        //     {
+        //         cur_order_node = next_order_node;
+        //         next_order_node = null;
+        //         lastSiblingCheck = false;
+        //     }
+        //     cur_order_node.set_parent_node(root.get_parent_node());
+        //     index++;
+        //     root.set_sibling_node(cur_order_node);
+        //     if(next_order_node != null)
+        //     {
+        //         root.get_sibling_node().increase_quaintity();
+        //         next_order_node.set_parent_node(root.get_sibling_node());
+        //         root.get_sibling_node().set_child_node(next_order_node);
+        //         return AddOrder(order, root.get_sibling_node().get_child_node());
+        //     }
+        //     return AddOrder(order, root.get_sibling_node());
+        // }
+        // else return AddOrder(order, root.get_sibling_node());
     }
     
     
@@ -200,15 +217,16 @@ public class OrderSystem
         if(root.get_data() == null ? order[index_c] == null : root.get_data().equals(order[index_c]))
         {
             if(root.get_quantity() >= 2) root.decrease_quaintity();
-            else removeNode(root);
+            else
+            {
+                removeNode(root);
+                this.root = root;
+                return true;
+            }
             index_c++;
-            CancelOrder(order, root.get_child_node());
+            return CancelOrder(order, root.get_child_node());
         }
-        else {
-            index_c++;
-            CancelOrder(order, root.get_sibling_node());
-        }
-        return false;
+        else return CancelOrder(order, root.get_sibling_node());
     }
 
     private Node removeNode(Node node) 

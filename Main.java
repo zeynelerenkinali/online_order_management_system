@@ -87,43 +87,53 @@ public class Main
                 case 2 ->
                 {
                     valid = false;
-                    while(!valid)
+                    if(!order_list.isEmpty())
                     {
-                        System.out.print("\n--------------\n|Cancel Order|\n--------------\n");
-                        System.out.print("\n--------\n|ORDERS|\n--------");
-                        // Print the currently available order for user to select one of the array for cancel operation
-                        for(int i = 0; i < order_list.size(); i++)
+                        while(!valid)
                         {
-                            System.out.print("\n|" + (i+1) + "->|[");
-                            for(int j = 0; j < order_list.get(i).length; j++)
+                            System.out.print("\n--------------\n|Cancel Order|\n--------------\n");
+                            System.out.print("\n--------\n|ORDERS|\n--------");
+                            // Print the currently available order for user to select one of the array for cancel operation
+                            for(int i = 0; i < order_list.size(); i++)
                             {
-                                String comma = (j == order_list.get(i).length - 1) ? "" : ",";
-                                System.out.print(order_list.get(i)[j] + comma);
+                                System.out.print("\n|" + (i+1) + "->|[");
+                                for(int j = 0; j < order_list.get(i).length; j++)
+                                {
+                                    String comma = (j == order_list.get(i).length - 1) ? "" : ",";
+                                    System.out.print(order_list.get(i)[j] + comma);
+                                }
+                                System.out.print("]");
                             }
-                            System.out.print("]");
-                        }
-                        boolean valid_select = false;
-                        int selected_order = 0;
-                        // Select an order from the list that previously given
-                        while(!valid_select)
-                        {
-                            System.out.print("\nPlease select an order to cancel(select by index number): ");
-                            if (sc.hasNextLine()) sc.nextLine(); // Clean buffer
-                            String line = sc.nextLine();
-                            line = line.replaceAll("\\s", "");
-                            if(line.matches("\\d+"))
+                            boolean valid_select = false;
+                            int selected_order = 0;
+                            // Select an order from the list that previously given
+                            while(!valid_select)
                             {
-                                selected_order = Integer.parseInt(line);
-                                if(selected_order <= order_list.size() && selected_order > 0) valid_select = true;
+                                System.out.print("\nPlease select an order to cancel(select by index number): ");
+                                if (sc.hasNextLine()) sc.nextLine(); // Clean buffer
+                                String line = sc.nextLine();
+                                line = line.replaceAll("\\s", "");
+                                if(line.matches("\\d+"))
+                                {
+                                    selected_order = Integer.parseInt(line);
+                                    if(selected_order <= order_list.size() && selected_order > 0) valid_select = true;
+                                }
                             }
+                            // Send the order to Cancel_order operation at OrderSystem and delete the order from order_list
+                            boolean check = os.CancelOrder(order_list.get(selected_order - 1), null);
+                            order_list.remove(selected_order - 1);
+                            if(check) System.out.print("\nOrder Successfully Cancelled.\n");
+                            else System.err.println("\nCould not able to Cancel Order.\n");
+                            valid = true;
                         }
-                        // Send the order to Cancel_order operation at OrderSystem and delete the order from order_list
-                        boolean check = os.CancelOrder(order_list.get(selected_order - 1), null);
-                        order_list.remove(selected_order - 1);
-                        if(check) System.out.print("\nOrder Successfully Cancelled.\n");
-                        else System.err.println("\nCould not able to Cancel Order.\n");
-                        valid = true;
                     }
+                    else
+                    {
+                        System.err.print("\nERROR: There is no order to cancel, please add an order first.\n");
+                        if (sc.hasNextLine()) sc.nextLine(); // Clean buffer 
+                        System.out.print("\nPress Enter to continue...");
+                        sc.nextLine();
+                    } 
                 }
                 case 4 -> {
                     if(!order_list.isEmpty()) os.print(null, "");
