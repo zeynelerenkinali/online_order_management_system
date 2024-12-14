@@ -92,117 +92,58 @@ import java.util.*;
  */
 public class OrderSystem 
 {
-    private int index;
     private int index_c;
     private Node root;
     private boolean isAlph;
-    private boolean lastSiblingCheck;
     private String alphabetType;
-    private Node cur_order_node;
-    private Node next_order_node;
 
     OrderSystem(String alphabetType)
     {
-        this.index = 0;
         this.root = null;
         this.isAlph = false;
-        this.lastSiblingCheck = false;
         this.alphabetType = alphabetType;
     }
 
-    public void AddOrder(String order[], Node root)
+    public boolean AddOrder(String order[], Node root, int index)
     {
-        if(isAlph == false) // 1.
-        {
+        if(isAlph == false) 
+         {
             Alphabetical(order, this.alphabetType); 
             isAlph = true;
-            if(root == null) root = this.root;
-            index = 0;
-        }
-        if(index >= order.length) // Base case
+         }
+        if(index >= order.length)
         {
+            isAlph = false;
+            return true;
+        } 
+        Node newNode = new Node(order[index]);
+        root = (root == null) ? this.root : root;
+        if(this.root == null)
+        {
+            this.root = newNode;
+            root = newNode;
         }
         if(root.get_data() == null ? order[index] == null : root.get_data().equals(order[index]))
         {
+            root.increase_quaintity();
+            return AddOrder(order, root == null ? null : root.get_child_node(), index + 1);
         }
-        else if(root.get_sibling_node().get_data() == null ? order[index] == null : root.get_sibling_node().get_data().equals(order[index]))
+        if(root.get_child_node() == null)
         {
+            root.set_child_node(newNode);
+            newNode.set_parent_node(root);
+            newNode.increase_quaintity();
+            return AddOrder(order, root.get_child_node(), index + 1);
         }
-        /*
-         * Firstly I have to check Is it equals current one, if it is increase the current one and continue with child
-         * Then I have to go siblings until reach null one I can check this if the next one is null or not to make connections better.
-         * When reach create a new node and make connections
-         */
-
-        // cur_order_node = new Node(order[index]); // 2.
-        // next_order_node = null; // 3.
-        // if((index + 1) >= order.length) //4. 
-        // {
-        //     root.increase_quaintity();
-        //     System.out.println("CONDITION: Order addition successfully operated.");
-        //     index = 0;
-        //     isAlph = false;
-        //     // Returning true will end recursive operations
-        //     return true;
-        // }   
-        // else next_order_node = new Node(order[index+1]); // 5.
-        // if(this.root == null) // 6.
-        // {
-        //     this.root = cur_order_node;
-        //     this.root.set_parent_node(null);
-        //     this.root.set_sibling_node(null);
-        //     this.root.increase_quaintity();
-        //     index++;
-        //     if (next_order_node != null) {
-        //         next_order_node.set_parent_node(cur_order_node);
-        //     }
-        //     this.root.set_child_node(next_order_node);
-        //     return AddOrder(order, this.root.get_child_node());
-        // }
-        // if(root == null && (this.root.get_data() == null ? cur_order_node.get_data() == null : this.root.get_data().equals(cur_order_node.get_data()))) // 7.
-        // {
-        //     this.root.increase_quaintity();
-        //     index++;
-        //     return AddOrder(order, this.root.get_child_node());
-        // }
-        // else if(root.get_data() == null ? cur_order_node.get_data() == null : root.get_data().equals(cur_order_node.get_data())) // 8.
-        // {
-        //     root.increase_quaintity();
-        //     index++;
-        //     if (root.get_child_node() == null ? next_order_node == null : !root.get_child_node().get_data().equals(next_order_node.get_data()))
-        //     {
-        //         index--;
-        //         lastSiblingCheck = true;
-        //     }
-
-        //     else if(root.get_child_node() == null)
-        //     {
-        //         next_order_node.set_parent_node(root);
-        //         root.set_child_node(next_order_node);
-        //     }
-        //     return AddOrder(order, root.get_child_node());
-        // }
-        // else if(root.get_sibling_node() == null)
-        // {
-        //     if(lastSiblingCheck)
-        //     {
-        //         cur_order_node = next_order_node;
-        //         next_order_node = null;
-        //         lastSiblingCheck = false;
-        //     }
-        //     cur_order_node.set_parent_node(root.get_parent_node());
-        //     index++;
-        //     root.set_sibling_node(cur_order_node);
-        //     if(next_order_node != null)
-        //     {
-        //         root.get_sibling_node().increase_quaintity();
-        //         next_order_node.set_parent_node(root.get_sibling_node());
-        //         root.get_sibling_node().set_child_node(next_order_node);
-        //         return AddOrder(order, root.get_sibling_node().get_child_node());
-        //     }
-        //     return AddOrder(order, root.get_sibling_node());
-        // }
-        // else return AddOrder(order, root.get_sibling_node());
+        if(root.get_sibling_node() == null) 
+        {
+            Node siblingNode = new Node(order[index]);
+            root.set_sibling_node(siblingNode);
+            siblingNode.set_parent_node(root.get_parent_node());
+            siblingNode.increase_quaintity();
+            return AddOrder(order, root.get_sibling_node(), index + 1);
+        }
+        else return AddOrder(order, root.get_sibling_node(), index); // At sibling we are searching for equal sibling
     }
     
     

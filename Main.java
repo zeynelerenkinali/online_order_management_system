@@ -82,7 +82,7 @@ public class Main
                             order_list.add(parts); // Add order to order_list, as full text.
                         }
                     }   
-                    os.AddOrder(cur_order.get(order_index - 1), null);
+                    os.AddOrder(cur_order.get(order_index - 1), null, 0);
                 }
                 case 2 ->
                 {
@@ -150,7 +150,6 @@ public class Main
             }
             if (!mainLoop) clearScreen();
         }
-
     }
     public static void clearScreen() 
     {
