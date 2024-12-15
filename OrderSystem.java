@@ -25,7 +25,6 @@ import java.util.*;
  */
 public class OrderSystem 
 {
-    private int index_c;
     private Node root;
     private boolean isAlph;
     private String alphabetType;
@@ -39,37 +38,31 @@ public class OrderSystem
 
     public boolean AddOrder(String order[], Node root, int index)
     {
-        if(isAlph == false) 
-         {
+        if(isAlph == false) {
             Alphabetical(order, this.alphabetType); 
             isAlph = true;
          }
-        if(index >= order.length)
-        {
+        if(index >= order.length){
             isAlph = false;
             return true;
         } 
         Node newNode = new Node(order[index]);
         root = (root == null) ? this.root : root;
-        if(this.root == null)
-        {
+        if(this.root == null){
             this.root = newNode;
             root = newNode;
         }
-        if(root.get_data() == null ? order[index] == null : root.get_data().equals(order[index]))
-        {
+        if(root.get_data() == null ? order[index] == null : root.get_data().equals(order[index])){
             root.increase_quaintity();
             return AddOrder(order, root == null ? null : root.get_child_node(), index + 1);
         }
-        if(root.get_child_node() == null)
-        {
+        if(root.get_child_node() == null){
             root.set_child_node(newNode);
             newNode.set_parent_node(root);
             newNode.increase_quaintity();
             return AddOrder(order, root.get_child_node(), index + 1);
         }
-        if(root.get_sibling_node() == null) 
-        {
+        if(root.get_sibling_node() == null) {
             Node siblingNode = new Node(order[index]);
             root.set_sibling_node(siblingNode);
             siblingNode.set_parent_node(root.get_parent_node());
@@ -80,35 +73,30 @@ public class OrderSystem
     }
     
     
-    public boolean CancelOrder(String order[], Node root)
+    public boolean CancelOrder(String order[], Node current_root, Node prev_sibling_root, int index)
     {
-        if(index_c >= order.length) return true;
-        if(root == null)
+        if(index >= order.length) return true;
+        if(current_root == null) current_root = this.root;
+        if(Objects.equals(current_root.get_data(), order[index]))
         {
-            index_c = 0;
-            root = this.root;
-        }
-        if(root.get_data() == null ? order[index_c] == null : root.get_data().equals(order[index_c]))
-        {
-            if(root.get_quantity() >= 2) root.decrease_quaintity();
-            else
+            if(current_root.get_quantity() >= 2)
             {
-                removeNode(root);
-                this.root = root;
+                current_root.decrease_quaintity();
+                return CancelOrder(order, current_root.get_child_node(), null, index + 1);
+            }
+            else // In delete operation there is two option, it will be itself, or will be sibling.
+            {
+                if(this.root.get_data() == null ? order[index] == null : this.root.get_data().equals(order[index]))
+                {
+                    if(this.root.get_sibling_node() != null) this.root = this.root.get_sibling_node();
+                }
+                else prev_sibling_root.set_sibling_node(null);   
                 return true;
             }
-            index_c++;
-            return CancelOrder(order, root.get_child_node());
         }
-        else return CancelOrder(order, root.get_sibling_node());
+        else return CancelOrder(order, current_root.get_sibling_node(), current_root, index);
     }
 
-    private Node removeNode(Node node) 
-    {
-        if(node == this.root) this.root = null;
-        return null;
-    }
-    
     public void setAlphabetType(String alphabetType)
     {
         this.alphabetType = alphabetType;

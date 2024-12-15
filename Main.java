@@ -120,7 +120,7 @@ public class Main
                                 }
                             }
                             // Send the order to Cancel_order operation at OrderSystem and delete the order from order_list
-                            boolean check = os.CancelOrder(order_list.get(selected_order - 1), null);
+                            boolean check = os.CancelOrder(order_list.get(selected_order - 1), null, null, 0);
                             order_list.remove(selected_order - 1);
                             if(check) System.out.print("\nOrder Successfully Cancelled.\n");
                             else System.err.println("\nCould not able to Cancel Order.\n");

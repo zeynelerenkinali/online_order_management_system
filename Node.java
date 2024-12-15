@@ -70,4 +70,12 @@ public class Node
     {
         this.quantity--;
     }
+    public void copyNode(Node copy)
+    {
+        this.data = copy.get_data();
+        this.quantity = copy.get_quantity();
+        this.parent_node = copy.get_parent_node();
+        this.child_node = copy.get_child_node();
+        this.sibling_node = copy.get_sibling_node();
+    }
 }
