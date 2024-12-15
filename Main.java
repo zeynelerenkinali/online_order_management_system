@@ -1,5 +1,5 @@
-
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main 
@@ -16,6 +16,7 @@ public class Main
         boolean mainLoop = false;
         ArrayList<String[]> order_list = new ArrayList<>(); 
         ArrayList<String[]> cur_order = new ArrayList<>();
+
         while(!mainLoop)
         {
             if(isFirst == false)
@@ -60,7 +61,7 @@ public class Main
                     valid = false;
                     while(!valid)
                     {              
-                        System.out.print("\n-----------\n|Add Order|\n-----------\n");
+                        System.out.print("\n------------\n|Add Order|\n------------\n");
                         System.out.print("Please enter your order(as order1,order2,order3): ");
                         if (sc.hasNextLine()) sc.nextLine(); // Clean buffer
                         boolean parts_valid = true;   
@@ -134,6 +135,38 @@ public class Main
                         System.out.print("\nPress Enter to continue...");
                         sc.nextLine();
                     } 
+                }
+                case 3 ->{
+                    valid = false;
+                    while(!valid)
+                    {              
+                        System.out.print("\n--------------------------\n|Querying the Product Set|\n--------------------------\n");
+                        System.out.print("Please enter the set of query(as query1,query2,query3): ");
+                        if (sc.hasNextLine()) sc.nextLine(); // Clean buffer
+                        boolean query_set_valid = true;   
+                        String text = sc.nextLine(); // Save the current order to text variable.
+                        text = text.replaceAll("\\s", "");
+                        String[] query_set = text.split(","); // Split text variable with "," to sepereate orders.
+                        for (String query : query_set) {
+                            if (query.length() < 1) {
+                                query_set_valid = false;
+                                break;
+                            }                         }
+                        if(query_set.length <= 1 && !query_set_valid)
+                            System.err.print("\nERROR: Please enter the set of query in appropriate structure(as query1,query2,query3)\n");
+                        else
+                        {
+                            os.Query(query_set, null, 0);
+                            if(os.get_query_count() <= 0) System.err.print("\nERROR: The query set of '" + Arrays.toString(query_set) + "' is not exist.\n");
+                            else
+                            {
+                                System.out.print("\nThere is "+ os.get_query_count()+ " amount of " + Arrays.toString(query_set) + " query set exist in this product.\n");
+                                System.out.print("\nPress Enter to continue...");
+                                sc.nextLine();
+                                valid = true;
+                            }
+                        }
+                    }   
                 }
                 case 4 -> {
                     if(!order_list.isEmpty()) os.print(null, "");

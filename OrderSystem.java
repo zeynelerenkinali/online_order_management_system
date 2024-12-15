@@ -26,6 +26,7 @@ import java.util.*;
 public class OrderSystem 
 {
     private Node root;
+    private int query_count;
     private boolean isAlph;
     private String alphabetType;
 
@@ -72,8 +73,7 @@ public class OrderSystem
         else return AddOrder(order, root.get_sibling_node(), index); // At sibling we are searching for equal sibling
     }
     
-    
-    public boolean CancelOrder(String order[], Node current_root, Node prev_sibling_root, int index)
+    public boolean CancelOrder(String order[], Node current_root, Node previous_root, int index)
     {
         if(index >= order.length) return true;
         if(current_root == null) current_root = this.root;
@@ -90,11 +90,36 @@ public class OrderSystem
                 {
                     if(this.root.get_sibling_node() != null) this.root = this.root.get_sibling_node();
                 }
-                else prev_sibling_root.set_sibling_node(null);   
+                else previous_root.set_sibling_node(null);   
                 return true;
             }
         }
         else return CancelOrder(order, current_root.get_sibling_node(), current_root, index);
+    }
+    
+    public void Query(String Query[], Node root, int index)
+    {
+        if(root == null)
+        {
+            root = this.root;
+            query_count = 0;
+        }
+        if(root.get_data() == null ? Query[index] == null : root.get_data().equals(Query[index]))
+        {
+            if(index == Query.length - 1)
+            {
+                query_count += root.get_quantity();
+                return;
+            }
+            else index++;
+        }
+        if(root.get_child_node() != null) Query(Query, root.get_child_node(), index);
+        if(root.get_sibling_node() != null) Query(Query, root.get_sibling_node(), index);
+    } 
+    
+    public int get_query_count()
+    {
+        return this.query_count;
     }
 
     public void setAlphabetType(String alphabetType)
