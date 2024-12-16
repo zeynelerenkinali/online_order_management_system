@@ -69,11 +69,11 @@ public class Main
                         text = text.replaceAll("\\s", "");
                         String[] parts = text.split(","); // Split text variable with "," to sepereate orders.
                         for (String part : parts) {
-                            if (part.length() < 1) {
+                            if (part.equals("")) {
                                 parts_valid = false;
                                 break;
                             }                         }
-                        if(parts.length <= 1 && !parts_valid)
+                        if(parts.length <= 1 || !parts_valid)
                             System.err.print("\nERROR: Please enter orders in appropriate structure(as order1,order2,order3)\n");
                         else
                         {
@@ -152,7 +152,7 @@ public class Main
                                 query_set_valid = false;
                                 break;
                             }                         }
-                        if(query_set.length <= 1 && !query_set_valid)
+                        if(query_set.length <= 1 || !query_set_valid)
                             System.err.print("\nERROR: Please enter the set of query in appropriate structure(as query1,query2,query3)\n");
                         else
                         {
