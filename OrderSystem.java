@@ -37,9 +37,9 @@ public class OrderSystem
         this.alphabetType = alphabetType;
     }
 
-    public boolean AddOrder(String order[], Node root, int index)
+    public boolean AddOrder(String order[], Node root, int index, boolean siblingSearch)
     {
-        if(isAlph == false) {
+        if(isAlph == false){
             Alphabetical(order, this.alphabetType); 
             isAlph = true;
          }
@@ -47,30 +47,31 @@ public class OrderSystem
             isAlph = false;
             return true;
         } 
-        Node newNode = new Node(order[index]);
+        Node newNode = new Node(order[index], index);
         root = (root == null) ? this.root : root;
         if(this.root == null){
             this.root = newNode;
             root = newNode;
         }
-        if(root.get_data() == null ? order[index] == null : root.get_data().equals(order[index])){
+        if(root.get_data().equals(order[index])){
             root.increase_quaintity();
-            return AddOrder(order, root == null ? null : root.get_child_node(), index + 1);
+            return AddOrder(order, root.get_child_node(), index + 1, false);
         }
-        if(root.get_child_node() == null){
+        else if(root.get_index() == index) siblingSearch = true;
+        if(root.get_child_node() == null && !siblingSearch){
             root.set_child_node(newNode);
             newNode.set_parent_node(root);
             newNode.increase_quaintity();
-            return AddOrder(order, root.get_child_node(), index + 1);
+            return AddOrder(order, root.get_child_node(), index + 1, false);
         }
-        if(root.get_sibling_node() == null) {
-            Node siblingNode = new Node(order[index]);
+        if(root.get_sibling_node() == null){
+            Node siblingNode = new Node(order[index], index);
             root.set_sibling_node(siblingNode);
             siblingNode.set_parent_node(root.get_parent_node());
             siblingNode.increase_quaintity();
-            return AddOrder(order, root.get_sibling_node(), index + 1);
+            return AddOrder(order, root.get_sibling_node(), index + 1, false);
         }
-        else return AddOrder(order, root.get_sibling_node(), index); // At sibling we are searching for equal sibling
+        else return AddOrder(order, root.get_sibling_node(), index, true); // At sibling we are searching for equal sibling that's why we sent isSibling as true
     }
     
     public boolean CancelOrder(String order[], Node current_root, Node previous_root, int index)

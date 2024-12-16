@@ -83,7 +83,7 @@ public class Main
                             order_list.add(parts); // Add order to order_list, as full text.
                         }
                     }   
-                    os.AddOrder(cur_order.get(order_index - 1), null, 0);
+                    os.AddOrder(cur_order.get(order_index - 1), null, 0, false);
                 }
                 case 2 ->
                 {
