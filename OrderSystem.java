@@ -105,7 +105,7 @@ public class OrderSystem
             root = this.root;
             query_count = 0;
         }
-        if(root.get_data() == null ? Query[index] == null : root.get_data().equals(Query[index]))
+        if(root.get_data().equals(Query[index]))
         {
             if(index == Query.length - 1)
             {

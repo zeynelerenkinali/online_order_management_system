@@ -12,7 +12,7 @@ public class Main
         String choice;
         int order_index = 0;
         boolean isFirst = false;
-        boolean valid = false;
+        boolean valid;
         boolean mainLoop = false;
         ArrayList<String[]> order_list = new ArrayList<>(); 
         ArrayList<String[]> cur_order = new ArrayList<>();
@@ -68,13 +68,28 @@ public class Main
                         String text = sc.nextLine(); // Save the current order to text variable.
                         text = text.replaceAll("\\s", "");
                         String[] parts = text.split(","); // Split text variable with "," to sepereate orders.
+                        int checkCounter = 0;
                         for (String part : parts) {
+                            checkCounter = 0;
                             if (part.equals("")) {
                                 parts_valid = false;
                                 break;
-                            }                         }
-                        if(parts.length <= 1 || !parts_valid)
-                            System.err.print("\nERROR: Please enter orders in appropriate structure(as order1,order2,order3)\n");
+                            }
+                            for(String partCheck : parts){
+                                if(part.equals(partCheck)) checkCounter++;
+                            }
+                            if(checkCounter >= 2){
+                                parts_valid = false;
+                                break;
+                            }
+                        }
+                        if(parts.length < 1 || !parts_valid)
+                        {
+                            if(checkCounter >= 2)
+                                System.err.print("\nERROR: You cannot add same order more than one.\n");
+                            else
+                                System.err.print("\nERROR: Please enter orders in appropriate structure(as order1,order2,order3)\n");
+                        }
                         else
                         {
                             valid = true;
@@ -152,7 +167,7 @@ public class Main
                                 query_set_valid = false;
                                 break;
                             }                         }
-                        if(query_set.length <= 1 || !query_set_valid)
+                        if(query_set.length <= 1 && !query_set_valid)
                             System.err.print("\nERROR: Please enter the set of query in appropriate structure(as query1,query2,query3)\n");
                         else
                         {
@@ -178,6 +193,7 @@ public class Main
                 case 5 ->                 {
                     System.out.print("\nThank you for using our Order Management System.\nLeaving...\n");
                     mainLoop = true;
+                    sc.close();
                 }
                 default -> System.err.println();
             }
