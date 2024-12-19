@@ -91,6 +91,7 @@ public class OrderSystem
                 {
                     if(this.root.get_sibling_node() != null) this.root = this.root.get_sibling_node();
                 }
+                else if(previous_root == null) current_root.get_parent_node().set_child_node(current_root.get_sibling_node()); 
                 else previous_root.set_sibling_node(null);   
                 return true;
             }

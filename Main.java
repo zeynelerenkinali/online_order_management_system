@@ -13,6 +13,7 @@ public class Main
         int order_index = 0;
         boolean isFirst = false;
         boolean valid;
+        boolean parts_valid = true;
         boolean mainLoop = false;
         ArrayList<String[]> order_list = new ArrayList<>(); 
         ArrayList<String[]> cur_order = new ArrayList<>();
@@ -63,9 +64,9 @@ public class Main
                     {              
                         System.out.print("\n------------\n|Add Order|\n------------\n");
                         System.out.print("Please enter your order(as order1,order2,order3): ");
-                        if (sc.hasNextLine()) sc.nextLine(); // Clean buffer
-                        boolean parts_valid = true;   
+                        if (sc.hasNextLine() && parts_valid) sc.nextLine(); // Clean buffer
                         String text = sc.nextLine(); // Save the current order to text variable.
+                        parts_valid = true;
                         text = text.replaceAll("\\s", "");
                         String[] parts = text.split(","); // Split text variable with "," to sepereate orders.
                         int checkCounter = 0;
