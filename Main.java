@@ -13,7 +13,6 @@ public class Main
         int order_index = 0;
         boolean isFirst = false;
         boolean valid;
-        boolean parts_valid = true;
         boolean mainLoop = false;
         ArrayList<String[]> order_list = new ArrayList<>(); 
         ArrayList<String[]> cur_order = new ArrayList<>();
@@ -60,13 +59,13 @@ public class Main
                 case 1 -> 
                 {
                     valid = false;
+                    if (sc.hasNextLine()) sc.nextLine(); // Clean buffer
                     while(!valid)
                     {              
                         System.out.print("\n------------\n|Add Order|\n------------\n");
-                        System.out.print("Please enter your order(as order1,order2,order3): ");
-                        if (sc.hasNextLine() && parts_valid) sc.nextLine(); // Clean buffer
+                        System.out.print("\nPlease enter your order(as order1,order2,order3): ");
                         String text = sc.nextLine(); // Save the current order to text variable.
-                        parts_valid = true;
+                        boolean parts_valid = true;
                         text = text.replaceAll("\\s", "");
                         String[] parts = text.split(","); // Split text variable with "," to sepereate orders.
                         int checkCounter = 0;
@@ -104,6 +103,7 @@ public class Main
                 case 2 ->
                 {
                     valid = false;
+                    if (sc.hasNextLine()) sc.nextLine(); // Clean buffer
                     if(!order_list.isEmpty())
                     {
                         while(!valid)
@@ -127,7 +127,6 @@ public class Main
                             while(!valid_select)
                             {
                                 System.out.print("\nPlease select an order to cancel(select by index number): ");
-                                if (sc.hasNextLine()) sc.nextLine(); // Clean buffer
                                 String line = sc.nextLine();
                                 line = line.replaceAll("\\s", "");
                                 if(line.matches("\\d+"))
@@ -154,34 +153,43 @@ public class Main
                 }
                 case 3 ->{
                     valid = false;
-                    while(!valid)
-                    {              
-                        System.out.print("\n--------------------------\n|Querying the Product Set|\n--------------------------\n");
-                        System.out.print("Please enter the set of query(as query1,query2,query3): ");
-                        if (sc.hasNextLine()) sc.nextLine(); // Clean buffer
-                        boolean query_set_valid = true;   
-                        String text = sc.nextLine(); // Save the current order to text variable.
-                        text = text.replaceAll("\\s", "");
-                        String[] query_set = text.split(","); // Split text variable with "," to sepereate orders.
-                        for (String query : query_set) {
-                            if (query.length() < 1) {
-                                query_set_valid = false;
-                                break;
-                            }                         }
-                        if(query_set.length <= 1 && !query_set_valid)
-                            System.err.print("\nERROR: Please enter the set of query in appropriate structure(as query1,query2,query3)\n");
-                        else
-                        {
-                            os.Query(query_set, null, 0);
-                            if(os.get_query_count() <= 0) System.err.print("\nERROR: The query set of '" + Arrays.toString(query_set) + "' is not exist.\n");
+                    if (sc.hasNextLine()) sc.nextLine(); // Clean buffer
+                    if(!order_list.isEmpty())
+                    {
+                        while(!valid)
+                        {              
+                            System.out.print("\n--------------------------\n|Querying the Product Set|\n--------------------------\n");
+                            System.out.print("Please enter the set of query(as query1,query2,query3): ");
+                            boolean query_set_valid = true;   
+                            String text = sc.nextLine(); // Save the current order to text variable.
+                            text = text.replaceAll("\\s", "");
+                            String[] query_set = text.split(","); // Split text variable with "," to sepereate orders.
+                            for (String query : query_set) {
+                                if (query.length() < 1) {
+                                    query_set_valid = false;
+                                    break;
+                                }                         }
+                            if(query_set.length <= 1 && !query_set_valid)
+                                System.err.print("\nERROR: Please enter the set of query in appropriate structure(as query1,query2,query3)\n");
                             else
                             {
-                                System.out.print("\nThere is "+ os.get_query_count()+ " amount of " + Arrays.toString(query_set) + " query set exist in this product.\n");
-                                System.out.print("\nPress Enter to continue...");
-                                sc.nextLine();
-                                valid = true;
+                                os.Query(query_set, null, 0);
+                                if(os.get_query_count() <= 0) System.err.print("\nERROR: The query set of '" + Arrays.toString(query_set) + "' is not exist.\n");
+                                else
+                                {
+                                    System.out.print("\nThere is "+ os.get_query_count()+ " amount of " + Arrays.toString(query_set) + " query set exist in this product.\n");
+                                    System.out.print("\nPress Enter to continue...");
+                                    sc.nextLine();
+                                    valid = true;
+                                }
                             }
                         }
+                    }
+                    else
+                    {
+                        System.err.print("\nERROR: There is no order to query, please add an order first.\n");
+                        System.out.print("\nPress Enter to continue...");
+                        sc.nextLine();
                     }   
                 }
                 case 4 -> {
