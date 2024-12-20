@@ -90,6 +90,7 @@ public class OrderSystem
                 if(this.root.get_data() == null ? order[index] == null : this.root.get_data().equals(order[index]))
                 {
                     if(this.root.get_sibling_node() != null) this.root = this.root.get_sibling_node();
+                    else this.root = null;
                 }
                 else if(previous_root == null) current_root.get_parent_node().set_child_node(current_root.get_sibling_node()); 
                 else previous_root.set_sibling_node(null);   
@@ -156,7 +157,7 @@ public class OrderSystem
             root = this.root; // 1.1
             System.out.print("root\n");
         }
-        System.out.print(space + "└──" + root.get_data() + " (" + root.get_quantity() + ")" + " ─> Parent(" + (root.get_parent_node() == null ? "null" : root.get_parent_node().get_data())  + ")\n");
+        System.out.print(space + "└──" + root.get_data() + " (" + root.get_quantity() + ")" + " [P(" + (root.get_parent_node() == null ? "null" : root.get_parent_node().get_data())  + ") " + "| S(" + (root.get_sibling_node() == null ? "null" : root.get_sibling_node().get_data())  + ")]\n");
         if(root.get_child_node() != null) print(root.get_child_node(), space + "   ");
         if(root.get_sibling_node() != null) print(root.get_sibling_node(), space + "");        
     }    
