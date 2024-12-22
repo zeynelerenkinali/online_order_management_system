@@ -55,7 +55,7 @@ public class OrderSystem
         }
         if(root.get_data().equals(order[index])){
             root.increase_quaintity();
-            return AddOrder(order, root.get_child_node(), index + 1, false);
+            return AddOrder(order, root.get_child_node() == null ? root : root.get_child_node(), index + 1, false);
         }
         else if(root.get_index() == index) siblingSearch = true;
         if(root.get_child_node() == null && !siblingSearch){
