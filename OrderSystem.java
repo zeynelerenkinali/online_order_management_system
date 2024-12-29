@@ -1,32 +1,21 @@
 import java.text.Collator;
 import java.util.*;
 /*
- * Algorithm of Each Funciton 
- * - OrderSystem()
- * 1. Declare index = 0
- * 2. Declare this.root = null
- * 3. Declare boolean isAlph = false
- * 
- * - AddOrder(String order[], Node root)
- * 
- * - print(Node root)
- * **Logic: Every node except root node have only one child and unknown amount of siblings
- *          Root, does not have sibling only one child
- * 1. If root equals null (means first call)
- *      1.1 set root node to this.root
- * 2. Print node printing structure
- * 3. Print current root node with (quantity) in parantheses
- * 4. If root.child not equals null
- *      4.1 print child passing gui structure
- *      4.2 print(root.child)
- * 5. If root.sibling not equals null
- *      5.1 print sibling passing structure
- *      5.2 print(root.sibling) 
+ * OrderSystem class  
+ * Includes; 
+ * 1. OrderSystem(String alphabetType) - Constructor
+ * 2. AddOrder() - public boolean AddOrder(String order[], Node root, int index, boolean siblingSearch)
+ * 3. CancelOrder() - public boolean CancelOrder(String order[], Node current_root, Node previous_root, int index)
+ * 4. Query() - public void Query(String Query[], Node root, int index)
+ * 5. getQueryCount() - public int getQueryCount()
+ * 6. setAlphabetType() - public void setAlphabetType(String alphabetType)
+ * 7. alphabetical() - public String[] alphabetical(String[] order, String AlphabetType)
+ * 8. print() - public void print(Node root, String space)
  */
 public class OrderSystem 
 {
     private Node root;
-    private int query_count;
+    private int queryCount;
     private boolean isAlph;
     private String alphabetType;
 
@@ -40,7 +29,7 @@ public class OrderSystem
     public boolean AddOrder(String order[], Node root, int index, boolean siblingSearch)
     {
         if(isAlph == false){
-            Alphabetical(order, this.alphabetType); 
+            alphabetical(order, this.alphabetType); 
             isAlph = true;
          }
         if(index >= order.length){
@@ -105,13 +94,13 @@ public class OrderSystem
         if(root == null)
         {
             root = this.root;
-            query_count = 0;
+            queryCount = 0;
         }
         if(root.get_data().equals(Query[index]))
         {
             if(index == Query.length - 1)
             {
-                query_count += root.get_quantity();
+                queryCount += root.get_quantity();
                 return;
             }
             else index++;
@@ -120,9 +109,9 @@ public class OrderSystem
         if(root.get_sibling_node() != null) Query(Query, root.get_sibling_node(), index);
     } 
     
-    public int get_query_count()
+    public int getQueryCount()
     {
-        return this.query_count;
+        return this.queryCount;
     }
 
     public void setAlphabetType(String alphabetType)
@@ -130,7 +119,7 @@ public class OrderSystem
         this.alphabetType = alphabetType;
     }
 
-    public String[] Alphabetical(String[] order, String AlphabetType)
+    public String[] alphabetical(String[] order, String AlphabetType)
     {
         switch (AlphabetType.toLowerCase()) {
             case "en" -> Arrays.sort(order); // If Alphabet is english, then that means we can sort the array in Alphabetical order.

@@ -1,5 +1,5 @@
 /*
- * Node class of Binary Tree
+ * Node class
  * Includes, main node functions: set_parent_node, set_child_node, set_sibling_node, set_data, get_child_node, get_sibling_node, get_parent_node, get_data.
  * When the node first created: data that node going to hold will assigned to it, and other nodes that initialized first going to declared as null. 
  */

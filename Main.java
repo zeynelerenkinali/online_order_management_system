@@ -174,10 +174,10 @@ public class Main
                             else
                             {
                                 os.Query(query_set, null, 0);
-                                if(os.get_query_count() <= 0) System.err.print("\nERROR: The query set of '" + Arrays.toString(query_set) + "' is not exist.\n");
+                                if(os.getQueryCount() <= 0) System.err.print("\nERROR: The query set of '" + Arrays.toString(query_set) + "' is not exist.\n");
                                 else
                                 {
-                                    System.out.print("\nThere is "+ os.get_query_count()+ " amount of " + Arrays.toString(query_set) + " query set exist in this product.\n");
+                                    System.out.print("\nThere is "+ os.getQueryCount()+ " amount of " + Arrays.toString(query_set) + " query set exist in this product.\n");
                                     System.out.print("\nPress Enter to continue...");
                                     sc.nextLine();
                                     valid = true;
@@ -204,7 +204,6 @@ public class Main
                     mainLoop = true;
                     sc.close();
                 }
-                default -> System.err.println();
             }
             if (!mainLoop) clearScreen();
         }
