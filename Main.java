@@ -25,7 +25,7 @@ public class Main
                 String type = null;
                 while(!valid)
                 {
-                    System.out.print("\n---------------------------\n||Order System Management||\n---------------------------\n");
+                    System.out.print("\n---------------------------\n||Order Management System||\n---------------------------\n");
                     System.out.print("\nPlease select an alphabet type(en, tr): ");
                     type = sc.next();
                     if(!"en".equals(type) && !"tr".equals(type)) System.err.print("\nERROR: You can only chose 'en' or 'tr' as language type.\n");
