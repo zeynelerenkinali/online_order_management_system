@@ -76,7 +76,7 @@ public class OrderSystem
             }
             else // In delete operation there is two option, it will be itself, or will be sibling.
             {
-                if(this.root.get_data() == null ? order[index] == null : this.root.get_data().equals(order[index]))
+                if(this.root.get_data().equals(order[index]))
                 {
                     if(this.root.get_sibling_node() != null) this.root = this.root.get_sibling_node();
                     else this.root = null;

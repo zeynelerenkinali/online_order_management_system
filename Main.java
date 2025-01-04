@@ -128,12 +128,13 @@ public class Main
                             {
                                 System.out.print("\nPlease select an order to cancel(select by index number): ");
                                 String line = sc.nextLine();
-                                line = line.replaceAll("\\s", "");
-                                if(line.matches("\\d+"))
+                                line = line.replaceAll("\\s", ""); 
+                                if(line.matches("\\d+")) // if matches decimal
                                 {
                                     selected_order = Integer.parseInt(line);
                                     if(selected_order <= order_list.size() && selected_order > 0) valid_select = true;
                                 }
+                                else System.err.println("\nERROR: Please enter type your request as integer.");
                             }
                             // Send the order to Cancel_order operation at OrderSystem and delete the order from order_list
                             boolean check = os.CancelOrder(order_list.get(selected_order - 1), null, null, 0);
