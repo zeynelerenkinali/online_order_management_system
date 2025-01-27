@@ -110,8 +110,16 @@ Order Tree:
 - bread
   - milk
     - eggs
+```
+## Requirements
 
-For further information, anyone can contact me.
+- Java 8 or higher
+- Command-line access
 
-Report of project:
-[OMS_REPORT.docx](https://github.com/user-attachments/files/18300906/OMS_REPORT.docx)
+## Contributing
+
+Contributions are welcome! Feel free to open issues or submit pull requests to improve this system. If you have suggestions for new features, improvements, or bug fixes, please let us know by creating a new issue or submitting a pull request.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
