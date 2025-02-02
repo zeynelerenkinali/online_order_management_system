@@ -2,6 +2,8 @@
 
 This project implements a basic **Online Order Management System** in Java. It allows users to manage orders, including adding, canceling, querying, and printing them using a custom tree structure. The system also provides support for sorting orders alphabetically based on different languages (English or Turkish).
 
+---
+
 ## Features
 
 - **Add Order**: Insert a new order into the system and store it in a custom tree structure.
@@ -9,6 +11,8 @@ This project implements a basic **Online Order Management System** in Java. It a
 - **Query Orders**: Search for specific orders and retrieve the number of occurrences.
 - **Alphabetical Sorting**: Orders are alphabetized based on the selected language (English or Turkish).
 - **Tree Structure Printing**: Print the order structure to easily visualize the current state of the system.
+
+---
 
 ## Class Structure
 
@@ -59,11 +63,15 @@ The `Main` class handles user interaction through a command-line interface and p
 - **clearScreen()**: Utility method to clear the console screen.
 - **isInteger(String str)**: Utility method to check if a string is a valid integer.
 
+---
+
 ## How to Run
 
 1. Clone the repository or download the source code.
 2. Compile and run the `Main` class.
 3. Follow the on-screen instructions to add, cancel, query, or print orders.
+
+---
 
 ## Example Usage
 
@@ -111,15 +119,22 @@ Order Tree:
   - milk
     - eggs
 ```
+
+---
+
 ## Requirements
 
 - Java 8 or higher
 - Command-line access
 
+---
+
 ## Contributing
 
 Contributions are welcome! Feel free to open issues or submit pull requests to improve this system. If you have suggestions for new features, improvements, or bug fixes, please let us know by creating a new issue or submitting a pull request.
 
+---
+
 ## License
 
-This project is licensed under the MIT License. 
+This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
